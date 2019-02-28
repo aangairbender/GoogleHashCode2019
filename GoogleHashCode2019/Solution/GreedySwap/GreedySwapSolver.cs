@@ -10,9 +10,11 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 {
     public class GreedySwapSolver : ISolver
     {
-        public static int SwapIterations = 300000;
+        public static int SwapIterations = 3000000;
 
         private readonly Random _rand = new Random();
+
+        private Dictionary<Tag, IList<int>> _tags;
 
         private int _curValue;
 
@@ -31,6 +33,17 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 
             MakeShuffle(slidesAsArray);
             _curValue = CalcTotalValue(slidesAsArray);
+
+            _tags = new Dictionary<Tag, IList<int>>();
+            for (int i = 0; i < slidesAsArray.Length; ++i)
+            {
+                foreach (var tag in slidesAsArray[i].Tags)
+                {
+                    if (!_tags.ContainsKey(tag))
+                        _tags.Add(tag, new List<int>());
+                    _tags[tag].Add(i);
+                }
+            }
 
             for (int i = 0; i < SwapIterations; ++i)
                 TryMakeSwap(slidesAsArray);
@@ -62,9 +75,17 @@ namespace GoogleHashCode2019.Solution.GreedySwap
         private void TryMakeSwap(Slide[] slides)
         {
             int i = _rand.Next(slides.Length);
-            int j = _rand.Next(slides.Length);
-            if (Math.Abs(i - j) < 2)
+            var tags = slides[i].Tags.ToList();
+            int tagPos = _rand.Next(tags.Count);
+            var tag = tags[tagPos];
+            tagPos = _rand.Next(_tags[tag].Count);
+
+
+            int k = _tags[tag][tagPos];
+            if (Math.Abs(i - k) < 2)
                 return;
+
+            int j = _rand.Next(2) == 0 ? k - 1 : k + 1;
 
             int delta =
                 -CalcValueAround(slides, i - 1, i, i + 1)
@@ -75,6 +96,11 @@ namespace GoogleHashCode2019.Solution.GreedySwap
             if (delta > 0)
             {
                 Swap(ref slides[i], ref slides[j]);
+
+                var indOfI = _tags[tag].IndexOf(i);
+                var tmp = _tags[tag][tagPos];
+                _tags[tag][tagPos] = _tags[tag][indOfI];
+                _tags[tag][indOfI] = tmp;
                 _curValue += delta;
             }
         }

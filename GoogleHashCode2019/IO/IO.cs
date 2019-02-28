@@ -22,7 +22,8 @@ namespace GoogleHashCode2019.IO
         public InputData Read()
         {
             var line = _textReader.ReadLine();
-            int.TryParse(line, out var photosCount);
+            int photosCount;
+            int.TryParse(line, out photosCount );
 
             var photos = new List<Photo>();
             var tags = new HashSet<Tag>();
@@ -57,6 +58,8 @@ namespace GoogleHashCode2019.IO
             {
                 _textWriter.WriteLine(slide.ToString());
             }
+            _textWriter.Flush();
+            _textWriter.Close();
         }
     }
 }

@@ -10,9 +10,11 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 {
     public class GreedySwapSolver : ISolver
     {
-        public static int SwapIterations = 100;
+        public static int SwapIterations = 300000;
 
         private readonly Random _rand = new Random();
+
+        private int _curValue;
 
         public IEnumerable<Slide> Solve(InputData inputData)
         {
@@ -27,6 +29,9 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 
             var slidesAsArray = slides.ToArray();
 
+            MakeShuffle(slidesAsArray);
+            _curValue = CalcTotalValue(slidesAsArray);
+
             for (int i = 0; i < SwapIterations; ++i)
                 TryMakeSwap(slidesAsArray);
 
@@ -37,7 +42,7 @@ namespace GoogleHashCode2019.Solution.GreedySwap
         {
             List<Slide> slides = new List<Slide>();
             var arr = photos.ToArray();
-            for (int i = 0; i + 1< arr.Length; ++i)
+            for (int i = 0; i + 1 < arr.Length; i += 2)
             {
                 slides.Add(new VerticalSlide(arr[i], arr[i + 1]));
             }
@@ -45,21 +50,43 @@ namespace GoogleHashCode2019.Solution.GreedySwap
             return slides;
         }
 
+        private void MakeShuffle(Slide[] slides)
+        {
+            for (int i = 0; i < slides.Length; ++i)
+            {
+                int j = _rand.Next(slides.Length);
+                Swap(ref slides[i], ref slides[j]);
+            }
+        }
+
         private void TryMakeSwap(Slide[] slides)
         {
             int i = _rand.Next(slides.Length);
             int j = _rand.Next(slides.Length);
+            if (Math.Abs(i - j) < 2)
+                return;
 
-            int cur = CalcTotalValue(slides);
+            int delta =
+                -CalcValueAround(slides, i - 1, i, i + 1)
+                - CalcValueAround(slides, j - 1, j, j + 1)
+                + CalcValueAround(slides, i - 1, j, i + 1)
+                + CalcValueAround(slides, j - 1, i, j + 1);
 
-            Swap(ref slides[i], ref slides[j]);
-
-            int after = CalcTotalValue(slides);
-
-            if (after < cur)
+            if (delta > 0)
             {
                 Swap(ref slides[i], ref slides[j]);
+                _curValue += delta;
             }
+        }
+
+        private int CalcValueAround(Slide[] slides, int a, int b, int c)
+        {
+            int val = 0;
+            if (a >= 0)
+                val += slides[a].CalculateInterest(slides[b]);
+            if (c < slides.Length)
+                val += slides[c].CalculateInterest(slides[b]);
+            return val;
         }
 
         private void Swap<T>(ref T a, ref T b)

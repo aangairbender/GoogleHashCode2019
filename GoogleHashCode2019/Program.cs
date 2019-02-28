@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,16 @@ namespace GoogleHashCode2019
             }
             foreach (var dataSet in args)
             {
+                Directory.CreateDirectory(OutputPath);
                 var io = new IO.IO(
                     new StreamReader(@"../../DataSets/" + dataSet + InputExt), 
                     new StreamWriter(OutputPath + dataSet + OutputExt));
+                Console.Out.Write("Working on " + dataSet + " ...");
+                var sw = new Stopwatch();
+                sw.Start();
                 SingleSolve(io);
+                sw.Stop();
+                Console.Out.WriteLine($"Ok. Elapsed {sw.ElapsedMilliseconds / 1000f}");
             }
         }
 
@@ -35,7 +42,7 @@ namespace GoogleHashCode2019
         {
             var inputData = io.Read();
 
-            var solver = new GrouperSolver();
+            var solver = new GreedySwapSolver();
 
 
             var outputData = solver.Solve(inputData);

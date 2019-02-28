@@ -1,4 +1,6 @@
-﻿namespace GoogleHashCode2019.Model
+﻿using System.Collections.Generic;
+
+namespace GoogleHashCode2019.Model
 {
     public class HorizontalSlide : Slide
     {
@@ -13,5 +15,7 @@
         {
             return Photo.ToString();
         }
+
+        protected override IEnumerable<Tag> Tags => Photo.Tags;
     }
 }

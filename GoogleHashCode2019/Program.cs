@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GoogleHashCode2019.Solution.GreedySwap;
 using GoogleHashCode2019.Solution.Grouper;
+using GoogleHashCode2019.Solution.Same_unique;
 
 namespace GoogleHashCode2019
 {
@@ -35,7 +36,7 @@ namespace GoogleHashCode2019
         {
             var inputData = io.Read();
 
-            var solver = new GrouperSolver();
+            var solver = new Same_unique();
 
 
             var outputData = solver.Solve(inputData);

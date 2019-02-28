@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GoogleHashCode2019.Solution.GreedySwap;
+using GoogleHashCode2019.Solution.Grouper;
 
 namespace GoogleHashCode2019
 {
@@ -24,7 +25,7 @@ namespace GoogleHashCode2019
             foreach (var dataSet in args)
             {
                 var io = new IO.IO(
-                    new StreamReader(dataSet + InputExt), 
+                    new StreamReader(@"../../DataSets/" + dataSet + InputExt), 
                     new StreamWriter(OutputPath + dataSet + OutputExt));
                 SingleSolve(io);
             }
@@ -34,7 +35,7 @@ namespace GoogleHashCode2019
         {
             var inputData = io.Read();
 
-            var solver = new GreedySwapSolver();
+            var solver = new GrouperSolver();
 
 
             var outputData = solver.Solve(inputData);

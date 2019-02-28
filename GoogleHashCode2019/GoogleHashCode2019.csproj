@@ -54,6 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solution\GreedySwap\GreedySwapSolver.cs" />
+    <Compile Include="Solution\Grouper\GrouperSolver.cs" />
     <Compile Include="Solution\ISolver.cs" />
   </ItemGroup>
   <ItemGroup>

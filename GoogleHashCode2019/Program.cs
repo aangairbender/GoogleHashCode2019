@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GoogleHashCode2019.Model;
 using GoogleHashCode2019.Solution.GreedySwap;
 using GoogleHashCode2019.Solution.Grouper;
 
@@ -41,7 +42,7 @@ namespace GoogleHashCode2019
         private static void SingleSolve(IO.IO io)
         {
             var inputData = io.Read();
-
+            
             var solver = new GreedySwapSolver();
 
 

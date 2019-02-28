@@ -10,11 +10,11 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 {
     public class GreedySwapSolver : ISolver
     {
-        public static int SwapIterations = 3000000;
+        public static int SwapIterations = 600000;
 
         private readonly Random _rand = new Random();
 
-        private Dictionary<Tag, IList<int>> _tags;
+        private Dictionary<Tag, IDictionary<Slide, int>> _tags;
 
         private int _curValue;
 
@@ -34,14 +34,14 @@ namespace GoogleHashCode2019.Solution.GreedySwap
             MakeShuffle(slidesAsArray);
             _curValue = CalcTotalValue(slidesAsArray);
 
-            _tags = new Dictionary<Tag, IList<int>>();
+            _tags = new Dictionary<Tag, IDictionary<Slide, int>>();
             for (int i = 0; i < slidesAsArray.Length; ++i)
             {
                 foreach (var tag in slidesAsArray[i].Tags)
                 {
                     if (!_tags.ContainsKey(tag))
-                        _tags.Add(tag, new List<int>());
-                    _tags[tag].Add(i);
+                        _tags.Add(tag, new Dictionary<Slide, int>());
+                    _tags[tag].Add(slidesAsArray[i], i);
                 }
             }
 
@@ -60,7 +60,10 @@ namespace GoogleHashCode2019.Solution.GreedySwap
                 slides.Add(new VerticalSlide(arr[i], arr[i + 1]));
             }
 
-            return slides;
+            var asArr = slides.ToArray();
+            MakeShuffle(asArr);
+
+            return asArr;
         }
 
         private void MakeShuffle(Slide[] slides)
@@ -80,12 +83,13 @@ namespace GoogleHashCode2019.Solution.GreedySwap
             var tag = tags[tagPos];
             tagPos = _rand.Next(_tags[tag].Count);
 
-
-            int k = _tags[tag][tagPos];
+            var k = _tags[tag].ElementAt(tagPos).Value;
             if (Math.Abs(i - k) < 2)
                 return;
 
             int j = _rand.Next(2) == 0 ? k - 1 : k + 1;
+            if (j < 0 || j >= slides.Length)
+                return;
 
             int delta =
                 -CalcValueAround(slides, i - 1, i, i + 1)
@@ -95,12 +99,14 @@ namespace GoogleHashCode2019.Solution.GreedySwap
 
             if (delta > 0)
             {
+
+                var indOfI = _tags[tag][slides[i]];
+                var el = _tags[tag].ElementAt(tagPos);
+                var tmp = el.Value;
+                _tags[tag][el.Key] = indOfI;
+                _tags[tag][slides[i]] = tmp;
                 Swap(ref slides[i], ref slides[j]);
 
-                var indOfI = _tags[tag].IndexOf(i);
-                var tmp = _tags[tag][tagPos];
-                _tags[tag][tagPos] = _tags[tag][indOfI];
-                _tags[tag][indOfI] = tmp;
                 _curValue += delta;
             }
         }

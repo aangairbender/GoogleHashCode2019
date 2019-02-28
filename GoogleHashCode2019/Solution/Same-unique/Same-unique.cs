@@ -85,7 +85,7 @@ namespace GoogleHashCode2019.Solution.Same_unique
                 slidesList[index] = tempSlide;
             });
             var result = new List<Slide>();
-            for (int i = 0; i < uniqueSlides.Count(); i++)
+            for (int i = 0; i < uniqueSlides.Count() + 1; i++)
             {
                 result.AddRange(GroupSlides(slidesList.Skip(i * divider).Take(divider)));
             }

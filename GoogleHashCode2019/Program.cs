@@ -41,6 +41,11 @@ namespace GoogleHashCode2019
 
             var outputData = solver.Solve(inputData);
             io.Write(outputData);
+            int score = 0;
+            for (int i = 0; i < outputData.Count() - 1; i++)
+            {
+                score += outputData.ElementAt(i).CalculateInterest(outputData.ElementAt(i + 1));
+            }
         }
     }
 }

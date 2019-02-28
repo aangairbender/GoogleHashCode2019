@@ -43,11 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO\InputData.cs" />
+    <Compile Include="IO\IO.cs" />
+    <Compile Include="IO\OutputData.cs" />
+    <Compile Include="Model\HorizontalSlide.cs" />
+    <Compile Include="Model\Photo.cs" />
+    <Compile Include="Model\Slide.cs" />
+    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Model\VerticalSlide.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solution\GreedySwap\GreedySwapSolver.cs" />
+    <Compile Include="Solution\ISolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataSets\a.txt" />
+    <Content Include="DataSets\b.txt" />
+    <Content Include="DataSets\c.txt" />
+    <Content Include="DataSets\d.txt" />
+    <Content Include="DataSets\e.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

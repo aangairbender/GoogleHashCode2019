@@ -21,6 +21,6 @@ namespace GoogleHashCode2019.Model
             return string.Join(" ", Photos.Select(p => p.ToString()));
         }
 
-        protected override IEnumerable<Tag> Tags => Photos.SelectMany(p => p.Tags, (photo, tag) => tag).Distinct();
+        public override IEnumerable<Tag> Tags => Photos.SelectMany(p => p.Tags, (photo, tag) => tag).Distinct();
     }
 }

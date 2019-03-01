@@ -8,7 +8,7 @@ namespace GoogleHashCode2019.Model
 {
     public abstract class Slide
     {
-        protected abstract IEnumerable<Tag> Tags { get; }
+        public abstract IEnumerable<Tag> Tags { get; }
 
         public int CalculateInterest(Slide neighborSlide)
         {

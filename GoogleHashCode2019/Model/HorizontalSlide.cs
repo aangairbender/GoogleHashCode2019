@@ -16,6 +16,6 @@ namespace GoogleHashCode2019.Model
             return Photo.ToString();
         }
 
-        protected override IEnumerable<Tag> Tags => Photo.Tags;
+        public override IEnumerable<Tag> Tags => Photo.Tags;
     }
 }
